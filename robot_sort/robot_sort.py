@@ -96,8 +96,55 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+
+        # psuedo
+        # move all the way right swapping larger values along the way
+        # move all the way left swapping smaller values along the way
+        # if we dont swap values at any point in the list then we know that the list isnt sorted
+        # if we make a swap at every point from beginning to end and back to the beginning then
+        # we know that the list is ordered and we can break loop and return the list
+
+        # set light ON
+        self.set_light_on()
+
+        # while light ON
+        while self.light_is_on():
+            
+            # Swap None with first item and move right one
+            self.swap_item()
+            self.move_right()
+
+            # set light off so loop will break if there is a swap at every position
+            self.set_light_off()
+
+            # move to the right until the end
+            while self.can_move_right():
+                # if the item is bigger or equal to the held item then swap with it and keep moving right
+                if self.compare_item() <= 0:
+                    self.swap_item()
+                else:
+                    # if there isn't a swap then the we know the list isn't sorted
+                    # so we need to keep looping
+                    self.set_light_on()
+                # moving right
+                self.move_right()
+
+            # sets largest item in the last index
+            self.swap_item()
+
+            # same steps as the right loop except going left and swapping if less
+            while self.can_move_left():
+                if self.compare_item() >= 0:
+                    self.swap_item()
+                else:
+                    self.set_light_on()
+
+                self.move_left()
+            # swaps smallest with the None that we left at beginning
+            self.swap_item()
+        
+        # if we can make it all the way to the right and and all the way back to the left with
+        # out turning the light On then the loop will break and we are done
 
 
 if __name__ == "__main__":
